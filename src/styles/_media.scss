@@ -1,0 +1,102 @@
+@use 'mixins';
+
+@media screen and (min-width: 1360px) {
+    .container {
+        width: 70%;
+    }
+
+    form {
+        .field {
+            width: 30rem;
+        }
+        .text-error {
+            max-width: 30rem;
+        }
+        .actions {
+            width: 40%;
+        }
+    }
+}
+
+@media screen and (max-width: 1349px) {
+    .container {
+        width: 75%;
+    }
+    form{
+        .field {
+            width: 25rem;
+        }
+        .text-error {
+            max-width: 25rem;
+        }
+        .actions {
+            width: 50%;
+        }
+    }
+}
+
+
+@media screen and (max-width: 900px) {
+    .container {
+        width: 80%;
+    }
+    form{
+        .field {
+            width: 20rem;
+        }
+        .text-error {
+            max-width: 20rem;
+        }
+        .actions {
+            width: 60%;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    form {
+        .field {
+            width: 20rem;
+        }
+
+        .actions {
+            width: 70%;
+        }
+    }
+}
+
+@media screen and (max-width: 420px) {
+    form {
+        .field {
+            width: 18rem;
+        }
+        .text-error {
+            max-width: 18rem;
+        }
+        .actions {
+            width: 80%;
+        }
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .row {
+        @include mixins.flex-box($principal:space-between , $secondary: flex-start, $direction: column);
+    }
+
+    form {
+        .fields {
+            align-items: center;
+        }
+        .field {
+            width: 15rem;
+        }
+        .text-error {
+            max-width: 15rem;
+        }
+        .actions {
+            align-items: stretch;
+        }
+    }
+
+}

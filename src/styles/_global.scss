@@ -1,0 +1,78 @@
+@use 'variables';
+@use 'mixins';
+
+html {
+    font-size: 60%;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Open Sans, sans-serif;
+    background-color: variables.$color-secondary;
+    min-height: 100vh;
+}
+
+img {
+    width: 80%;
+    height: auto;
+}
+
+.container {
+    margin: auto;
+    width: 80%;
+}
+
+.btn {
+    border: none;
+    border-radius: 5px;
+    padding: 1em;
+    cursor: pointer;
+    font-weight: 700;
+    margin-bottom: 1em;
+
+    &:disabled {
+        background-color: variables.$color-gray;
+        color: variables.$color-primary-shade
+    }
+}
+
+.btn-primary {
+    @extend .btn;
+    color: variables.$color-contrast;
+    background-color: variables.$color-accent;
+}
+
+.btn-secondary {
+    @extend .btn;
+    background-color: variables.$color-secondary;
+}
+
+form {
+
+    &.ng-invalid.ng-submitted .field.ng-invalid, .field.ng-invalid.ng-touched {
+        border: 2px solid variables.$color-error-border;
+    }
+}
+
+.field {
+    border-radius: 5px;
+    padding: 1rem 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 0.5px solid variables.$color-gray;
+}
+    
+label {
+    font-weight: 700;
+    font-size: 0.7em;
+    margin-bottom: 0.5rem;
+}
+
+.row {
+    @include mixins.flex-box($principal:space-between, $secondary: center, $direction: row);
+}
+
+.col {
+     @include mixins.flex-box($principal:flex-start, $secondary: flex-start, $direction: column);
+}
