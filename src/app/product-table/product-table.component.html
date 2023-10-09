@@ -23,7 +23,7 @@
           </tr>
         </ng-container>
         <ng-container *ngIf="products.length">
-          <tr *ngFor="let product of products | filterProducts:page:selectedLines:search">
+          <tr *ngFor="let product of products | filterProducts:page:lines:search">
             <td><div class="logo"><img src="{{product.logo}}"/></div></td>
             <td>{{product.name}}</td>
             <td>{{product.description}}</td>
@@ -38,10 +38,10 @@
   <div class="row pagination">
   <p>{{ products.length }} Resultados</p>
   <div>
-    <button class="btn-primary" type="button"(click)="previousPage()" [disabled]="(products | filterProducts:(page - 1):selectedLines:search).length === 0">Anterior</button>
-    <button class="btn-primary" type="button" (click)="nextPage()" [disabled]="(products | filterProducts:(page + 1):selectedLines:search).length === 0">Siguiente</button>
+    <button class="btn-primary" type="button"(click)="previousPage()" [disabled]="(products | filterProducts:(page - lines):lines:search).length === 0">Anterior</button>
+    <button class="btn-primary" type="button" (click)="nextPage()" [disabled]="(products | filterProducts:(page + lines):lines:search).length === 0">Siguiente</button>
   </div>
-  <select [(ngModel)]="selectedLines" class="field">
+  <select [(ngModel)]="selectedLines" class="field" (change)="onChangeLines()">
     <option *ngFor="let lines of optionLines" [value]="lines">{{lines}}</option>
   </select>
 </div>

@@ -12,7 +12,8 @@ export class ProductTableComponent implements OnInit {
   search: string = "";
   optionLines = [5, 10, 20];
   page: number = 0;
-  selectedLines = "5";
+  selectedLines:string = "5";
+  lines:number = Number(this.selectedLines);
 
   constructor(private mainService: MainService) {}
 
@@ -38,15 +39,17 @@ export class ProductTableComponent implements OnInit {
     this.search = search;
   }
 
+  onChangeLines() {
+    this.lines = Number(this.selectedLines);
+  }
+
   nextPage() {
-    this.page += Number(this.selectedLines);
-    console.log(this.page);
+    this.page += this.lines;
   }
 
   previousPage() {
     if (this.page > 0) {
-      this.page -= Number(this.selectedLines);
-      console.log(this.page);
+      this.page -= this.lines;
     }
   }
 }

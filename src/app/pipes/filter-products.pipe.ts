@@ -7,19 +7,18 @@ export class FilterProductsPipe implements PipeTransform {
   transform(
     products: any,
     page: number = 0,
-    lines: string = "5",
+    lines: number = 5,
     search: string = ""
   ): any {
 
-    if (!search.length) {
-      console.log(products.slice(page, page + Number(lines)));
-      return products.slice(page, page + Number(lines));
-    }
+    let filteredProducts = products;
 
-    const filteredProducts = products.filter((product: object) => {
-      return Object.values(product).some((value) => value.includes(search));
-    });
+    if (search.length) {
+      filteredProducts = products.filter((product: object) => {
+        return Object.values(product).some((value) => value.includes(search));
+      });
+    }  
 
-    return filteredProducts;
+    return filteredProducts.slice(page, page + Number(lines));
   }
 }
