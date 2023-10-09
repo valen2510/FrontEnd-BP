@@ -1,0 +1,81 @@
+<div class="container form">
+  <div class="title">
+    <h2>Formulario de Registro</h2>
+  </div>
+  <form [formGroup]="productForm" (submit)="submitProductForm()">
+    <div class="row fields">
+      <div class="col">
+        <label for="id">ID</label
+        ><input id="id" class="field" type="text" formControlName="id" />
+        <div class="text-error" *ngIf="getId()?.invalid && (getId()?.dirty || getId()?.touched)">
+          <p *ngIf="getId()?.errors?.['required']">El campo id es requerido</p>
+          <p *ngIf="getId()?.errors?.['minlength']">El id debe tener minimo 3 caracteres</p>
+          <p *ngIf="getId()?.errors?.['maxlength']">El id debe tener maximo 10 caracteres</p>
+          <p *ngIf="getId()?.errors?.['isInvalidId']">El id debe tener maximo 10 caracteres</p>
+        </div>
+      </div>
+      <div class="col">
+        <label for="name">Nombre</label
+        ><input id="name" class="field" type="text" formControlName="name" />
+        <div class="text-error" *ngIf="getName()?.invalid && (getName()?.dirty || getName()?.touched)">
+          <p *ngIf="getName()?.errors?.['required']">El campo nombre es requerido</p>
+          <p *ngIf="getName()?.errors?.['minlength']">El nombre debe tener minimo 10 caracteres</p>
+          <p *ngIf="getName()?.errors?.['maxlength']">El nombre debe tener maximo 200 caracteres</p>
+        </div>
+      </div>
+    </div>
+    <div class="row fields">
+      <div class="col">
+        <label for="description">Descripcion</label
+        ><input
+          id="description"
+          class="field"
+          type="text"
+          formControlName="description"
+        />
+        <div class="text-error" *ngIf="getDescription()?.invalid && (getDescription()?.dirty || getDescription()?.touched)">
+          <p *ngIf="getDescription()?.errors?.['required']">El campo descripcion es requerido</p>
+          <p *ngIf="getDescription()?.errors?.['minlength']">El descripcion debe tener minimo 10 caracteres</p>
+          <p *ngIf="getDescription()?.errors?.['maxlength']">El decripcion debe tener maximo 200 caracteres</p>
+        </div>
+      </div>
+      <div class="col">
+        <label for="logo">Logo</label
+        ><input id="logo" class="field" type="text" formControlName="logo" />
+        <div class="text-error" *ngIf="getLogo()?.invalid && (getLogo()?.dirty || getLogo()?.touched)">
+          <p *ngIf="getLogo()?.errors?.['required']">El campo logo es requerido</p>
+        </div>
+      </div>
+    </div>
+    <div class="row fields">
+      <div class="col">
+        <label for="date-release">Fecha de liberacion</label
+        ><input
+          id="date-release"
+          class="field"
+          type="date"
+          formControlName="dateRelease"
+          (change)="onChangeDateRevision()"
+        />
+        <div class="text-error" *ngIf="getDateRelease()?.invalid && (getDateRelease()?.dirty || getDateRelease()?.touched)">
+          <p *ngIf="getDateRelease()?.errors?.['required']">El campo de fecha de liberacion es requerido</p>
+        </div>
+      </div>
+      <div class="col">
+        <label for="date-revision">Fecha de revision</label
+        ><input
+          id="date-revision"
+          class="field"
+          type="date"
+          formControlName="dateRevision"
+        />
+      </div>
+    </div>
+    <div class="row actions">
+      <button class="btn-secondary" type="button" (click)="clearForm()">
+        Reiniciar
+      </button>
+      <button class="btn-primary" type="submit">Enviar</button>
+    </div>
+  </form>
+</div>

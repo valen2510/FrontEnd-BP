@@ -1,0 +1,50 @@
+@use '../../styles/variables'
+@use '../../styles/mixins'
+
+.table-wrapper
+    border-radius: 5px
+    background-color: variables.$color-primary
+    padding: 1em
+
+    .pagination
+        margin-top: 0.5em
+        font-size: 1.3rem
+     
+        button
+            margin: auto 1rem
+            font-size: 1.2rem
+
+
+.table-container
+    overflow: auto
+    font-size: 0.8em
+    
+table
+    border-collapse: collapse
+    width: 100%
+
+    thead
+        background-color: variables.$color-primary-shade
+        
+        i
+            margin-left: 0.3em
+
+
+    tbody tr
+        border-top: 2px solid variables.$color-primary-shade
+        border-bottom: 2px solid variables.$color-primary-shade
+
+    th, td
+        text-align: center
+        padding: 1em 2em
+    
+    i
+        color: variables.$color-gray
+
+    .logo
+        width: 3em
+        height: 3em
+        border-radius: 50%
+        color: variables.$color-primary
+        background-color: variables.$color-default-background
+        @include mixins.flex-box($principal:center, $secondary: center, $direction: row)

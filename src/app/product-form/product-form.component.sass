@@ -1,0 +1,36 @@
+@use '../../styles/variables'
+
+.container
+
+    &.form
+        background-color: variables.$color-primary
+    
+    .title
+        padding: 0.5em 0
+        text-align: center   
+        border-bottom: 1px solid variables.$color-black
+        color: variables.$color-black
+
+    form
+        margin: 1em
+
+        .row.fields
+            justify-content: space-around
+            flex-wrap: wrap
+
+        .col
+            margin: 0 0.5em 1em 0.5em
+
+            .text-error
+                color: variables.$color-error
+            p
+                margin: auto 0.2em
+                font-size: 1.2rem
+
+        
+        .title
+            border-bottom: black
+
+        .actions
+            margin: auto
+            padding: 1.5em 0 1.5em 0
