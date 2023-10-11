@@ -3,6 +3,7 @@ import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, Validators} 
 import { MainService } from '../services/main.service';
 import { map } from "rxjs/operators";
 import { Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: "app-product-form",
@@ -10,6 +11,7 @@ import { Observable } from 'rxjs';
   styleUrls: ["./product-form.component.sass"],
 })
 export class ProductFormComponent implements OnInit {
+  editMode: boolean = false;
   productForm: FormGroup = new FormGroup({
     id: new FormControl(
       "",
@@ -33,9 +35,51 @@ export class ProductFormComponent implements OnInit {
     ]),
   });
 
-  constructor(private mainService: MainService) {}
+  constructor(
+    private mainService: MainService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const formId = params.get("id");
+
+      if (formId) {
+        this.getProducts(formId);
+        this.editMode = true;
+      } else {
+        this.editMode = false;
+      }
+    });
+  }
+
+  private getProducts(productId: string) {
+    const api = "/bp/products";
+    this.mainService.getPosts(api).subscribe({
+      next: (data) => {
+        const currentProduct = data.find(
+          (product: { id: string }) => product.id === productId
+        );
+        if (currentProduct) {
+          this.productForm.patchValue({
+            ...currentProduct,
+            dateRelease: this.formatDate(currentProduct.date_release),
+            dateRevision: this.formatDate(currentProduct.date_revision),
+          });
+
+          this.getId()?.disable();
+        } else {
+          this.router.navigateByUrl('/formulario-producto');
+        }
+      },
+      error: (err) => {
+        if (err.status === 400) {
+          window.alert(err.error);
+        }
+      },
+    });
+  }
 
   asyncIdValidator(): AsyncValidatorFn {
     return (
@@ -78,10 +122,14 @@ export class ProductFormComponent implements OnInit {
     return this.productForm.get("dateRevision");
   }
 
+  formatDate(date: number | string) {
+    return new Date(date).toISOString().split("T")[0];
+  }
+
   addYearToDate(date: Date, year: number) {
     const copyDate = new Date(date);
     const newDate = copyDate.setFullYear(copyDate.getFullYear() + year);
-    return new Date(newDate);
+    return newDate;
   }
 
   onChangeDateRevision() {
@@ -90,49 +138,91 @@ export class ProductFormComponent implements OnInit {
 
     if (dateReleaseObj instanceof Date) {
       const newDate = this.addYearToDate(dateReleaseObj, 1);
-      const formatNewDate = newDate.toISOString().split("T")[0];
+      const formatNewDate = this.formatDate(newDate);
 
       const dateRevision = this.getDateRevision();
       dateRevision?.patchValue(formatNewDate);
     }
   }
 
-   private configProductData(product: any): any {
-    const values = product.value
+  private configProductData(product: any): any {
+    const values = product.value;
+
     return {
-      "id": values.id,
-      "name": values.name,
-      "logo": values.logo,
-      "description": values.description,
-      "date_release": values.dateRelease,
-      "date_revision": this.getDateRevision()?.value,
+      id: values.id || this.getId()?.value, 
+      name: values.name,
+      logo: values.logo,
+      description: values.description,
+      date_release: values.dateRelease,
+      date_revision: this.getDateRevision()?.value,
     };
-   }
+  }
+
+  private addNewProduct(api: string, data: any) {
+    this.mainService.postPost({ api, data }).subscribe({
+      next: (res) => {
+        window.alert("Se ha creado el producto exitosamente");
+        this.clearForm();
+      },
+      error: (err) => {
+        if (err.status === 400) {
+          window.alert(err.error);
+        }
+
+        if (err.status === 206) {
+          window.alert("Formulario incompleto");
+        }
+      },
+    });
+  }
+
+  private updateProduct(api: string, data: any) {
+    this.mainService.updatePost({ api, data }).subscribe({
+      next: (res) => {
+        window.alert("Se ha actualizado el producto exitosamente");
+      },
+      error: (err) => {
+        if (err.status === 400) {
+          window.alert(err.error);
+        }
+
+        if (err.status === 206) {
+          window.alert("Formulario incompleto");
+        }
+
+        if (err.status === 401) {
+          window.alert("Debe ser el author para realizar actualizcion del resgistro");
+        }
+      },
+    });
+  }
 
   submitProductForm() {
     if (!this.productForm.invalid) {
       const api = "/bp/products";
       const data = this.configProductData(this.productForm);
-      
-      this.mainService.postPost({ api, data }).subscribe({
-        next: (res) => {
-          window.alert('Se ha creado el producto exitosamente');
-          this.clearForm();
-        },
-        error: (err) => {
-          if (err.status === 400){
-            window.alert(err.error)
-          }
 
-          if (err.status === 206) {
-            window.alert('Formulario incompleto');
-          }
-        },
-      })
+      if (this.editMode) {
+        this.updateProduct(api, data);
+      } else {
+        this.addNewProduct(api, data);
+      }
+      
     }
   }
 
   clearForm() {
-    this.productForm.reset();
+    if (!this.editMode) {
+      this.productForm.reset();
+    } else {
+      this.productForm.patchValue({
+        name: "",
+        description: "",
+        logo: "",
+        dateRelease: "",
+        dateRevision: "",
+      });
+
+    }
   }
 }

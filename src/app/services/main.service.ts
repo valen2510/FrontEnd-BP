@@ -17,7 +17,6 @@ export class MainService {
   constructor(private http: HttpClient) {}
 
   getPosts(api: String): Observable<any> {
-    console.log(`${this.baseUrl}${api}`);
     return this.http.get(`${this.baseUrl}${api}`, this.httpOptions);
   }
 

@@ -8,7 +8,7 @@
       (keyup)="onChangeSearch(txtSearch.value)"
     />
     <app-button-link
-      [path]="'/crear-producto'"
+      [path]="'/formulario-producto'"
       [content]="'Agregar'"
     ></app-button-link>
   </div>
@@ -56,7 +56,7 @@
                         : 'dropdown-content'
                     "
                   >
-                    <button class="btn row" type="button" >
+                    <button class="btn row" type="button" [routerLink]="['/formulario-producto', product.id]">
                       <i class="fa-solid fa-pencil"></i>Editar
                     </button>
                     <button class="btn row" type="button" (click)="onOpenModal()">

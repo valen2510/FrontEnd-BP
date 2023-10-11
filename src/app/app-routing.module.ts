@@ -4,7 +4,8 @@ import { ProductTableComponent } from "./product-table/product-table.component";
 import { ProductFormComponent } from "./product-form/product-form.component";
 
 const routes: Routes = [
-  { path: "crear-producto", component: ProductFormComponent },
+  { path: "formulario-producto", component: ProductFormComponent },
+  { path: "formulario-producto/:id", component: ProductFormComponent },
   { path: "**", component: ProductTableComponent },
 ];
 
