@@ -1,0 +1,30 @@
+@use '../../styles/variables'
+@use '../../styles/mixins'
+
+:host 
+    @include mixins.flex-box($principal:center, $secondary: center, $direction: row)
+    position: fixed
+    top: 0px
+    right: 0px
+    width: 100%
+    height: 100%
+    background-color: variables.$color-black-transparent
+    
+
+.modal 
+    width: 30%
+    height: 15rem
+    box-shadow: 5px 5px 6px variables.$color-gray
+    border-radius: 5px
+    background-color: variables.$color-primary
+    padding: 3rem
+
+    .modal-content
+        text-align: center
+        margin-bottom: 4rem
+
+    .row
+        justify-content: space-around
+        
+        button
+            width: 40%

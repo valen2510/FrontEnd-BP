@@ -69,6 +69,11 @@ label {
     margin-bottom: 0.5rem;
 }
 
+i {
+    color: variables.$color-gray;
+    cursor: pointer;
+}
+
 .row {
     @include mixins.flex-box($principal:space-between, $secondary: center, $direction: row);
 }

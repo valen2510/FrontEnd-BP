@@ -10,6 +10,7 @@ import { ProductTableComponent } from "./product-table/product-table.component";
 import { ButtonLinkComponent } from "./button-link/button-link.component";
 import { ProductFormComponent } from "./product-form/product-form.component";
 import { FilterProductsPipe } from './pipes/filter-products.pipe';
+import { ProductModalComponent } from './product-modal/product-modal.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { FilterProductsPipe } from './pipes/filter-products.pipe';
     ButtonLinkComponent,
     ProductFormComponent,
     FilterProductsPipe,
+    ProductModalComponent,
   ],
   imports: [
     BrowserModule,

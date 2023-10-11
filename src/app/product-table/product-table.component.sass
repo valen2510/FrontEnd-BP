@@ -37,9 +37,7 @@ table
     th, td
         text-align: center
         padding: 1em 2em
-    
-    i
-        color: variables.$color-gray
+
 
     .logo
         width: 3em
@@ -48,3 +46,40 @@ table
         color: variables.$color-primary
         background-color: variables.$color-default-background
         @include mixins.flex-box($principal:center, $secondary: center, $direction: row)
+
+
+
+    .table-actions
+        .dropdown
+            position: absolute
+            display: inline-block
+
+            .dropdown-content
+                display: none
+                
+            .active-dropdown-content
+                @include mixins.flex-box($principal:flex-start, $secondary: flex-start, $direction: column)
+                background-color: variables.$color-secondary
+                position: absolute
+                font-size: 1rem
+                border-radius: 5px
+                border: 0.1rem solid variables.$color-gray
+
+                i
+                    margin-right: 0.5em
+
+                .row
+                    justify-content: flex-start
+
+                button.btn
+                    text-align: left
+                    padding: 0.3em
+                    margin: 0
+                    width: 100%
+
+                    &:hover
+                        background-color: variables.$color-gray
+                        color: variables.$color-primary
+
+                        i
+                            color: variables.$color-primary

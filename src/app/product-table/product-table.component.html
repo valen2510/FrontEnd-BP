@@ -1,49 +1,114 @@
 <div class="wrapper">
   <div class="row">
-    <input class="field" type="text" placeholder="Search..." #txtSearch (keyup)="onChangeSearch(txtSearch.value)"/>
-    <app-button-link [path]="'/crear-producto'" [content]="'Agregar'"></app-button-link>
+    <input
+      class="field"
+      type="text"
+      placeholder="Search..."
+      #txtSearch
+      (keyup)="onChangeSearch(txtSearch.value)"
+    />
+    <app-button-link
+      [path]="'/crear-producto'"
+      [content]="'Agregar'"
+    ></app-button-link>
   </div>
   <div class="table-wrapper">
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Logo</th>
-          <th>Nombre de producto</th>
-          <th>Descripción</th>
-          <th>Fecha de liberación<i class="fa-solid fa-circle-info"></i></th>
-          <th>Fecha de reestructuración<i class="fa-solid fa-circle-info"></i></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngIf="!products.length">
-          <tr class="row">
-            <td>No se encuentran registros</td>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Logo</th>
+            <th>Nombre de producto</th>
+            <th>Descripción</th>
+            <th>Fecha de liberación<i class="fa-solid fa-circle-info"></i></th>
+            <th>
+              Fecha de reestructuración<i class="fa-solid fa-circle-info"></i>
+            </th>
+            <th></th>
           </tr>
-        </ng-container>
-        <ng-container *ngIf="products.length">
-          <tr *ngFor="let product of products | filterProducts:page:lines:search">
-            <td><div class="logo"><img src="{{product.logo}}"/></div></td>
-            <td>{{product.name}}</td>
-            <td>{{product.description}}</td>
-            <td>{{product.date_release | date: "dd/MM/yyyy"}}</td>
-            <td>{{product.date_revision | date: "dd/MM/yyyy"}}</td>
-            <td><i class="fa-solid fa-ellipsis-vertical"></i></td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="!products.length">
+            <tr class="row">
+              <td>No se encuentran registros</td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="products.length">
+            <tr
+              *ngFor="
+                let product of products | filterProducts : page : lines : search
+              "
+            >
+              <td>
+                <div class="logo"><img src="{{ product.logo }}" /></div>
+              </td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.description }}</td>
+              <td>{{ product.date_release | date : "dd/MM/yyyy" }}</td>
+              <td>{{ product.date_revision | date : "dd/MM/yyyy" }}</td>
+              <td class="table-actions" (click)="onClickDropdown(product.id, product.name)">
+                <div class="dropdown">
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                  <div
+                    [ngClass]="
+                      (showDropdown && selectedProductId === product.id)
+                        ? 'active-dropdown-content'
+                        : 'dropdown-content'
+                    "
+                  >
+                    <button class="btn row" type="button" >
+                      <i class="fa-solid fa-pencil"></i>Editar
+                    </button>
+                    <button class="btn row" type="button" (click)="onOpenModal()">
+                      <i class="fa-solid fa-trash"></i>Eliminar
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div class="row pagination">
+      <p>{{ products.length }} Resultados</p>
+      <div>
+        <button
+          class="btn-primary"
+          type="button"
+          (click)="previousPage()"
+          [disabled]="
+            (products | filterProducts : page - lines : lines : search)
+              .length === 0
+          "
+        >
+          Anterior
+        </button>
+        <button
+          class="btn-primary"
+          type="button"
+          (click)="nextPage()"
+          [disabled]="
+            (products | filterProducts : page + lines : lines : search)
+              .length === 0
+          "
+        >
+          Siguiente
+        </button>
+      </div>
+      <select
+        [(ngModel)]="selectedLines"
+        class="field"
+        (change)="onChangeLines()"
+      >
+        <option *ngFor="let lines of optionLines" [value]="lines">
+          {{ lines }}
+        </option>
+      </select>
+    </div>
   </div>
-  <div class="row pagination">
-  <p>{{ products.length }} Resultados</p>
-  <div>
-    <button class="btn-primary" type="button"(click)="previousPage()" [disabled]="(products | filterProducts:(page - lines):lines:search).length === 0">Anterior</button>
-    <button class="btn-primary" type="button" (click)="nextPage()" [disabled]="(products | filterProducts:(page + lines):lines:search).length === 0">Siguiente</button>
-  </div>
-  <select [(ngModel)]="selectedLines" class="field" (change)="onChangeLines()">
-    <option *ngFor="let lines of optionLines" [value]="lines">{{lines}}</option>
-  </select>
 </div>
-  </div>
+
+<div class="" *ngIf="showModal">
+  <app-product-modal [productId]="selectedProductId" [productName]="selectedProductName"></app-product-modal>
 </div>
